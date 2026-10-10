@@ -1,0 +1,106 @@
+<!doctype html>
+<!--
+  Source of the app icon. Open with ?v=full | store | fg | bg | mono to see one layer;
+  tool/make_icons.ps1 renders each layer and resizes it into android/.
+  Drawn on Android's 108-unit adaptive-icon grid: everything that matters
+  sits inside the 66-unit safe circle in the middle.
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  html,body{margin:0;padding:0;background:transparent;overflow:hidden}
+  svg{display:block;width:100vw;height:100vh}
+</style>
+</head>
+<body>
+<svg id="art" xmlns="http://www.w3.org/2000/svg"></svg>
+<script>
+var v = (location.search.match(/v=(\w+)/) || [,"full"])[1];
+
+var INK = "#101A2B", INK3 = "#22344F", GOLD = "#C8A24A", GOLD_DK = "#9C7B2E",
+    DAMUR = "#F5F1E6", DAMUR_DK = "#E2D8C3", NILE = "#2E6E6B";
+
+/* the jalabiya from the splash screen, on its 100 x 140 grid */
+var ROBE = "M43,12 Q33,13.5 24,18 Q17,40 13,66 L25,69 Q27,50 31,34 C30,70 25,105 21,133" +
+           " Q35,135.5 50,134 Q65,135.5 79,133 C75,105 70,70 69,34 Q73,50 75,69 L87,66" +
+           " Q83,40 76,18 Q67,13.5 57,12 Q50,17 43,12 Z";
+var COLLAR = "M44,7.4 H56 Q56.4,7.4 56.4,8 V13 H43.6 V8 Q43.6,7.4 44,7.4 Z";
+/* place the robe on the bag: 32 units tall, centred */
+var ROBE_T = "translate(41.6 45.3) scale(0.252)";
+
+var BAG = "M35.2,41.5 H72.8 Q75.6,41.5 75.9,44.3 L78.2,77.2 Q78.5,81.5 74.2,81.5 H33.8" +
+          " Q29.5,81.5 29.8,77.2 L32.1,44.3 Q32.4,41.5 35.2,41.5 Z";
+var HANDLE = "M44.5,43.5 V37 C44.5,27.5 63.5,27.5 63.5,37 V43.5";
+
+function lattice(op){
+  var s = "";
+  for(var y=-6; y<=114; y+=12){
+    var shift = (Math.round(y/12) % 2) ? 6 : 0;
+    for(var x=-6+shift; x<=114; x+=12){
+      var d = Math.hypot(x-54, y-50), f = Math.max(0, 1 - d/62);
+      if(f <= 0) continue;
+      s += '<path d="M'+x+','+(y-2.6)+' L'+(x+2.1)+','+y+' L'+x+','+(y+2.6)+' L'+(x-2.1)+','+y+' Z"'+
+           ' fill="none" stroke="'+GOLD+'" stroke-width="0.45" opacity="'+(op*f).toFixed(3)+'"/>';
+    }
+  }
+  return s;
+}
+
+function background(){
+  return '<defs><radialGradient id="bg" cx="50%" cy="44%" r="62%">' +
+         '<stop offset="0" stop-color="'+INK3+'"/><stop offset="1" stop-color="'+INK+'"/></radialGradient></defs>' +
+         '<rect width="108" height="108" fill="url(#bg)"/>' + lattice(0.16);
+}
+
+function foreground(){
+  return '<defs><linearGradient id="bag" x1="0" y1="0" x2="0" y2="1">' +
+         '<stop offset="0" stop-color="'+DAMUR+'"/><stop offset="1" stop-color="'+DAMUR_DK+'"/></linearGradient></defs>' +
+         /* soft shadow so the bag sits on the stage */
+         '<ellipse cx="54" cy="83.2" rx="22" ry="2.2" fill="#000" opacity="0.32"/>' +
+         '<path d="'+HANDLE+'" fill="none" stroke="'+GOLD+'" stroke-width="3.6" stroke-linecap="round"/>' +
+         '<path d="'+BAG+'" fill="url(#bag)"/>' +
+         /* the fold along the top of the bag */
+         '<path d="M32.3,46.3 H75.7" stroke="'+DAMUR_DK+'" stroke-width="1.1"/>' +
+         '<circle cx="44.5" cy="44.2" r="1.25" fill="'+GOLD_DK+'"/>' +
+         '<circle cx="63.5" cy="44.2" r="1.25" fill="'+GOLD_DK+'"/>' +
+         /* the jalabiya, in Nile green, with gold collar and embroidered placket */
+         '<g transform="'+ROBE_T+'">' +
+           '<path d="'+ROBE+'" fill="'+NILE+'"/>' +
+           '<path d="'+COLLAR+'" fill="'+NILE+'"/>' +
+           '<path d="M43.6,9.2 H56.4" stroke="'+GOLD+'" stroke-width="2.4"/>' +
+           '<path d="M50,15.8 V46" stroke="'+GOLD+'" stroke-width="2.6"/>' +
+           '<path d="M46.4,20 l2,3 -2,3 -2,-3 z M46.4,30 l2,3 -2,3 -2,-3 z M53.6,20 l2,3 -2,3 -2,-3 z M53.6,30 l2,3 -2,3 -2,-3 z" fill="'+GOLD+'"/>' +
+         '</g>';
+}
+
+/* Android 13 themed icon: one colour, the system tints it. the robe is cut
+   out of the bag so the shape still reads in a single tone. */
+function mono(){
+  return '<defs><mask id="cut"><rect width="108" height="108" fill="#fff"/>' +
+         '<g transform="'+ROBE_T+'"><path d="'+ROBE+'" fill="#000"/><path d="'+COLLAR+'" fill="#000"/></g></mask></defs>' +
+         '<path d="'+HANDLE+'" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round"/>' +
+         '<path d="'+BAG+'" fill="#fff" mask="url(#cut)"/>';
+}
+
+var svg = document.getElementById("art"), body = "";
+if(v === "bg"){ svg.setAttribute("viewBox","0 0 108 108"); body = background(); }
+else if(v === "fg"){ svg.setAttribute("viewBox","0 0 108 108"); body = foreground(); }
+else if(v === "mono"){ svg.setAttribute("viewBox","0 0 108 108"); body = mono(); }
+else if(v === "full"){
+  /* legacy launcher icon: the middle of the adaptive grid, the bag alone on
+     a transparent background */
+  svg.setAttribute("viewBox","15 13 78 78");
+  body = foreground();
+}
+else {
+  /* Play Store icon (?v=store): Google wants an opaque square, so it keeps
+     the navy background */
+  svg.setAttribute("viewBox","15 13 78 78");
+  body = '<defs><clipPath id="sq"><rect x="15" y="13" width="78" height="78" rx="17"/></clipPath></defs>' +
+         '<g clip-path="url(#sq)">' + background() + foreground() + '</g>';
+}
+svg.innerHTML = body;
+</script>
+</body>
+</html>

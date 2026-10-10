@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Jalabiya Admin</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;600&display=swap">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div id="app" aria-live="polite"></div>
+  <div id="toasts" role="status"></div>
+
+  <!-- The admin dashboard for the Jalabiya app. Everything it changes goes
+       through the admin_* functions in supabase/admin.sql, which check that
+       the signed-in account is listed in app_admins. See README.md. -->
+  <!-- pinned, with its hash, so a changed file on the CDN never runs with admin rights.
+       To upgrade: change the version and recompute the sha384 of that exact file. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"
+          integrity="sha384-BWcjm9OdFth9TbhCxZPdm+gAOUMAzQy9nmTs12ioXdCcbVnJaPMn+fMUoQCLt60R"
+          crossorigin="anonymous"></script>
+  <!-- optional: window.JALABIYA_CONFIG = { url, anonKey } (see config.example.js) -->
+  <script src="config.js" onerror="this.remove()"></script>
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

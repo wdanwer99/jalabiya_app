@@ -1,0 +1,15 @@
+{
+  "name": "jalabiya-app-checks",
+  "private": true,
+  "description": "Checks that run without Flutter: database rules on real Postgres, the admin dashboard in jsdom, the 3D bridge on real three.js, and Dart syntax/imports/translations.",
+  "scripts": {
+    "test": "node db_test.mjs && node admin_test.mjs && node engine_test.js && node ../check_dart.mjs ./node_modules"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8",
+    "jsdom": "^26.0.0",
+    "three": "0.128.0",
+    "tree-sitter-wasms": "^0.1.12",
+    "web-tree-sitter": "^0.25.0"
+  }
+}
