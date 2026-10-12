@@ -84,7 +84,9 @@ class _AccountTabState extends State<AccountTab> {
   @override
   Widget build(BuildContext context) {
     final s = context.watch<Session>();
-    final p = s.profile!;
+    final p = s.profile;
+    // Signed out: the gate is fading this screen away, so draw nothing.
+    if (p == null) return const SizedBox.shrink();
     final shop = s.shop;
     final sections = <Widget>[
       if (p.isTailor) ...[

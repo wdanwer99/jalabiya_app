@@ -53,6 +53,18 @@ class AppGate extends StatefulWidget {
 class _AppGateState extends State<AppGate> {
   static const _splashKey = ValueKey('splash');
   bool _introDone = false;
+  bool _wasSignedIn = false;
+
+  /// After a sign-out, closes every screen, sheet and dialog opened above the
+  /// gate (an order page, "sign in again" on an error), so the welcome screen
+  /// is what shows and nothing left behind reads the old account.
+  void _closeLeftovers() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      Navigator.of(context).popUntil((r) => r.isFirst);
+      ScaffoldMessenger.of(context).clearSnackBars();
+    });
+  }
 
   Widget _screen(BuildContext context, Session s) {
     final splash = SplashView(
@@ -84,6 +96,8 @@ class _AppGateState extends State<AppGate> {
   @override
   Widget build(BuildContext context) {
     final s = context.watch<Session>();
+    if (_wasSignedIn && !s.signedIn) _closeLeftovers();
+    _wasSignedIn = s.signedIn;
     final next = _screen(context, s);
     // Gate changes (splash → sign in → profile → home) cross-fade.
     return AnimatedSwitcher(

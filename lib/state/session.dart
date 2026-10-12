@@ -169,8 +169,15 @@ class Session extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Signs out on this device even when offline. Supabase drops the local
+  /// session (and fires the signed-out event the gate follows) before it asks
+  /// the server to revoke it, so a failure there is no reason to complain.
   Future<void> signOut() async {
-    await repo.signOut();
+    try {
+      await repo.signOut();
+    } catch (_) {
+      if (repo.currentUser != null) rethrow; // still signed in: a real failure
+    }
   }
 
   Future<void> setLocale(String lang) async {

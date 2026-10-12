@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,7 +15,8 @@ class Palette {
   static const nile = Color(0xFF2E6E6B);
   static const nileSoft = Color(0xFFE3EEEC);
   static const gold = Color(0xFFC8A24A);
-  static const goldInk = Color(0xFF8A6A1F); // gold that passes contrast on paper
+  static const goldInk =
+      Color(0xFF8A6A1F); // gold that passes contrast on paper
   static const goldSoft = Color(0xFFF6EDD6);
   static const chalk = Color(0xFF8B93A5);
   static const muted = Color(0xFF5B6476);
@@ -23,7 +25,8 @@ class Palette {
   static const onInkMuted = Color(0xB3F2EDE1); // damur at 70%
 }
 
-TextStyle displayStyle(double size, {FontWeight weight = FontWeight.w600, Color? color}) {
+TextStyle displayStyle(double size,
+    {FontWeight weight = FontWeight.w600, Color? color}) {
   return GoogleFonts.reemKufi(
     fontSize: size,
     fontWeight: weight,
@@ -32,8 +35,10 @@ TextStyle displayStyle(double size, {FontWeight weight = FontWeight.w600, Color?
   );
 }
 
-TextStyle monoStyle(double size, {Color? color, FontWeight weight = FontWeight.w500}) {
-  return GoogleFonts.ibmPlexMono(fontSize: size, color: color ?? Palette.ink, fontWeight: weight);
+TextStyle monoStyle(double size,
+    {Color? color, FontWeight weight = FontWeight.w500}) {
+  return GoogleFonts.ibmPlexMono(
+      fontSize: size, color: color ?? Palette.ink, fontWeight: weight);
 }
 
 ThemeData buildTheme() {
@@ -75,7 +80,8 @@ ThemeData buildTheme() {
         foregroundColor: Colors.white,
         minimumSize: const Size(64, 52),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        textStyle: GoogleFonts.ibmPlexSansArabic(fontSize: 16, fontWeight: FontWeight.w600),
+        textStyle: GoogleFonts.ibmPlexSansArabic(
+            fontSize: 16, fontWeight: FontWeight.w600),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
@@ -84,7 +90,8 @@ ThemeData buildTheme() {
         minimumSize: const Size(64, 52),
         side: const BorderSide(color: Palette.line, width: 1.2),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        textStyle: GoogleFonts.ibmPlexSansArabic(fontSize: 15, fontWeight: FontWeight.w500),
+        textStyle: GoogleFonts.ibmPlexSansArabic(
+            fontSize: 15, fontWeight: FontWeight.w500),
       ),
     ),
     textButtonTheme: TextButtonThemeData(
@@ -97,14 +104,15 @@ ThemeData buildTheme() {
       overlayColor: Color(0x1F2E6E6B),
       trackHeight: 3,
     ),
-    dividerTheme: const DividerThemeData(color: Palette.line, space: 1, thickness: 1),
+    dividerTheme:
+        const DividerThemeData(color: Palette.line, space: 1, thickness: 1),
     snackBarTheme: const SnackBarThemeData(behavior: SnackBarBehavior.floating),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: Palette.card,
       indicatorColor: Palette.nileSoft,
       surfaceTintColor: Colors.transparent,
-      labelTextStyle: WidgetStatePropertyAll(
-          GoogleFonts.ibmPlexSansArabic(fontSize: 12, fontWeight: FontWeight.w500)),
+      labelTextStyle: WidgetStatePropertyAll(GoogleFonts.ibmPlexSansArabic(
+          fontSize: 12, fontWeight: FontWeight.w500)),
     ),
   );
 }
@@ -135,20 +143,24 @@ InputDecoration field({
     suffixIcon: suffixIcon,
     prefixIcon: prefixIcon,
     // the leading icon lights up with the field it belongs to
-    prefixIconColor: WidgetStateColor.resolveWith((s) => s.contains(WidgetState.error)
-        ? Palette.henna
-        : s.contains(WidgetState.focused)
-            ? Palette.nile
-            : Palette.chalk),
+    prefixIconColor:
+        WidgetStateColor.resolveWith((s) => s.contains(WidgetState.error)
+            ? Palette.henna
+            : s.contains(WidgetState.focused)
+                ? Palette.nile
+                : Palette.chalk),
     alignLabelWithHint: alignLabelWithHint,
     filled: true,
     fillColor: Palette.card,
     contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
     border: border,
     enabledBorder: border,
-    focusedBorder: border.copyWith(borderSide: const BorderSide(color: Palette.nile, width: 1.6)),
-    errorBorder: border.copyWith(borderSide: const BorderSide(color: Palette.henna)),
-    focusedErrorBorder: border.copyWith(borderSide: const BorderSide(color: Palette.henna, width: 1.6)),
+    focusedBorder: border.copyWith(
+        borderSide: const BorderSide(color: Palette.nile, width: 1.6)),
+    errorBorder:
+        border.copyWith(borderSide: const BorderSide(color: Palette.henna)),
+    focusedErrorBorder: border.copyWith(
+        borderSide: const BorderSide(color: Palette.henna, width: 1.6)),
     labelStyle: const TextStyle(color: Palette.muted),
     hintStyle: const TextStyle(color: Palette.chalk),
   );

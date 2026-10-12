@@ -197,8 +197,11 @@ class _OrdersTabState extends State<_OrdersTab> {
   Widget build(BuildContext context) {
     final repo = context.read<Repository>();
     final session = context.watch<Session>();
-    final uid = session.user!.id;
-    final firstName = session.profile!.fullName.trim().split(' ').first;
+    final uid = session.user?.id;
+    final me = session.profile;
+    // Signed out: the gate is fading this screen away, so draw nothing.
+    if (uid == null || me == null) return const SizedBox.shrink();
+    final firstName = me.fullName.trim().split(' ').first;
 
     Widget header(List<Order>? orders) => _HomeHeader(
           name: firstName,

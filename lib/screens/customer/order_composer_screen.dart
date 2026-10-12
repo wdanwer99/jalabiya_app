@@ -804,7 +804,8 @@ class _OrderComposerScreenState extends State<OrderComposerScreen> {
   }
 
   Widget _reviewStep(BuildContext context, LengthUnit unit) {
-    final profile = context.watch<Session>().profile!;
+    final profile = context.watch<Session>().profile;
+    if (profile == null) return const SizedBox.shrink(); // signed out; the gate closes this screen
     final shop = _shop ?? widget.editing?.shop;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

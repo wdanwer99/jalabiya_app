@@ -103,7 +103,8 @@ class _ShopOptionsScreenState extends State<ShopOptionsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final shop = context.watch<Session>().shop!;
+    final shop = context.watch<Session>().shop;
+    if (shop == null) return const SizedBox.shrink(); // signed out; the gate closes this screen
     return PopScope(
       canPop: !_changed,
       onPopInvokedWithResult: (didPop, _) {

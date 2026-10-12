@@ -90,7 +90,9 @@ class _TailorOrders extends StatelessWidget {
   Widget build(BuildContext context) {
     final repo = context.read<Repository>();
     final session = context.watch<Session>();
-    final uid = session.user!.id;
+    final uid = session.user?.id;
+    // Signed out: the gate is fading this screen away, so draw nothing.
+    if (uid == null) return const SizedBox.shrink();
     final shop = session.shop;
     return LiveData<List<Order>>(
       load: () => repo.fetchTailorOrders(uid),
